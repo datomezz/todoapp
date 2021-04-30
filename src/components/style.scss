@@ -1,5 +1,7 @@
 :root {
   font-size : 10px;
+  --app-color-border : #393A4B;
+  --app-color-list-item-background : #25273D;
 
   body {
     font-size : 1.6rem;
@@ -9,5 +11,162 @@
   .theme-dark {
     background : #171823;
     color : #fff;
+
+    .app-text {
+      color : #fff;
+    }
   }
+}
+
+@mixin flex($direction, $justify, $align) {
+  display : flex;
+  flex-direction : $direction;
+  justify-content : $justify;
+  align-items : $align;
+}
+
+//APP
+.app {
+  max-width : 40rem;
+  margin : 0 auto;
+}
+.app-button__no-style {
+  border : none;
+  outline : none;
+  background : transparent;
+}
+
+.app-text {
+  color : #000;
+}
+
+.app-list__container {
+  border : 1px solid var(--app-color-border);
+  border-radius : .5rem !important;
+  overflow : hidden;
+}
+
+.app-list__item {
+  list-style : none;
+}
+
+.app-input {
+  width : 100%;
+  background-color : transparent;
+  outline : none;
+  border : none;
+  color : #fff;
+}
+
+.app-list-text {
+  color : #9495a5;
+  font-size : 1.3rem;
+  padding : 0;
+  margin-right : .5rem;
+}
+
+.app-list-text--active {
+  color : #fff;
+  font-weight : bold;
+}
+
+//Header
+.app-header {
+  @include flex(row, space-between, center);
+  padding : 2rem 0;
+
+  .app-header__title {
+    letter-spacing : 1rem;
+    margin : 0;
+  }
+}
+
+//ListItem
+form.list-item__container {
+  border : none;
+  border-radius : .5rem;
+}
+
+.list-item__container {
+  @include flex(row, space-between, center);
+
+  background-color : var(--app-color-list-item-background);
+  border-bottom : 1px solid var(--app-color-border);
+  padding : 1rem;
+
+  &:hover {
+    .list-item__head {
+      .list-item__circle {
+        border : 3px solid #494C6B;
+      }
+
+    }
+
+    .list-item__footer {
+      opacity : 1;
+    }
+  }
+
+  .list-item__head {
+    
+    .list-item__circle--active {
+      svg {
+        display : block !important;
+      }
+    }
+
+    .list-item__circle {
+      @include flex(row, center, center);
+      width : 2.5rem;
+      height : 2.5rem;
+      border : 1px solid var(--app-color-border);
+      border-radius : 50%;
+      color : #fff;
+      transition : .3s ease;
+
+
+      svg {
+        width : 1rem;
+        height : 1rem;
+        display : none;
+      }
+    }
+  }
+
+  .list-item__body {
+    width : 80%;
+
+    .list-item__title--active {
+      text-decoration : line-through;
+      font-weight : bold;
+    }
+
+    .list-item__title {
+      font-size : 1.4rem;  
+      overflow : hidden;
+      text-overflow : ellipsis;
+      white-space : nowrap;
+      cursor : pointer;
+      margin : 0;
+    }
+
+    .list-item__title--full {
+      white-space : break-spaces;
+    }
+  }
+
+  .list-item__footer {
+    opacity : 0;
+    transition : .3s ease;
+  }
+}
+
+//FOOTER
+.footer {
+  @include flex(row, center, center);
+  background : var(--app-color-list-item-background);
+  border : 1px solid var(--app-color-border);
+  border-radius : .5rem;
+  padding : 1rem;
+  margin-top : 2rem;
 }
