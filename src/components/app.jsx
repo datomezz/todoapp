@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
+import styled from "styled-components";
 
 import Header from "./header";
 import Body from "./body";
 import Footer from "./footer";
 
-import "./style.scss";
+import styles from "./style.scss";
 
 const App = () => {
 

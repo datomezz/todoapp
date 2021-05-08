@@ -1,12 +1,45 @@
 const initialState = {
   darkTheme : false,
   list : [
-    {id : 0, title : "Todo App", isDone : false},
-    {id : 1, title : "Todo App", isDone : true},
-    {id : 2, title : "Todo App", isDone : true},
-    {id : 3, title : "Todo App", isDone : false}
+    {id : 0, title : "Todo App", isDone : false}
   ],
-  filter : "ALL"
+  filter : "ALL",
+  loading : true,
+  error : false
+}
+
+const fetchListFailure = (state, payload) => {
+  console.log("FAILURE", payload);
+  return {
+    ...state,
+    loading : false,
+    error : true
+  }
+}
+
+const fetchListSuccess = (state, payload) => {
+  console.log("success", payload);
+  return {
+    ...state,
+    loading : false,
+    error : false,
+    list : payload
+  }
+}
+
+const fetchListRequest = (state) => {
+  return {
+    ...state,
+    loading : true,
+    error : false
+  }
+}
+
+const updateList = (state, payload) => {
+  return {
+    ...state,
+    list : payload
+  }
 }
 
 const filterChange = (state, payload) => {
@@ -20,7 +53,6 @@ const todoRemoveAllCompleted = (state) => {
   const {list} = state;
 
   const filtredList = list.filter(({isDone}) => isDone !== true);
-  console.log(filtredList, "fl-list");
 
   return {
     ...state,
@@ -49,6 +81,7 @@ const todoAdd = (state, payload) => {
 const changeStatusListItem = (state, payload) => {
   const {list} = state;
   const idx = list.findIndex(({id}) => id === payload);
+
   const newItem = {
     ...list[idx],
     isDone : !list[idx].isDone
@@ -100,6 +133,14 @@ const reducer = (state = initialState, action) => {
       return todoRemoveAllCompleted(state);
     case "FILTER_CHANGE" : 
       return filterChange(state, action.payload);
+    case "UPDATE_LIST" :
+      return updateList(state, action.payload);
+    case "FETCH_LIST_REQUEST" : 
+      return fetchListRequest(state);
+    case "FETCH_LIST_SUCCESS" :
+      return fetchListSuccess(state, action.payload);
+    case "FETCH_LIST_FAILURE" : 
+      return fetchListFailure(state, action.payload);
     default : 
       return state;
   }

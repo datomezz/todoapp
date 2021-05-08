@@ -1,17 +1,21 @@
-import React, {useState} from "react";
-import {connect} from "react-redux";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {TODO_ADD} from "../actions";
 
-const TodoInput = ({addTodo}) => {
+const TodoInput = () => {
+  const {list} = useSelector(({list}) => ({list}));
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState("");
 
-  const submitNewTodo = (e) => {
+  const submitNewTodo = (e, value) => {
     e.preventDefault();
-    addTodo(value);
+    dispatch(TODO_ADD(value));
     setValue("");
   }
 
   return (
-    <form onSubmit={submitNewTodo} className="list-item__container">
+    <form onSubmit={(e) => submitNewTodo(e, value)} className="list-item__container">
       <div className="list-item__head">
         <span className="list-item__circle"></span>
       </div>
@@ -26,14 +30,7 @@ const TodoInput = ({addTodo}) => {
       </div>
       <div className="list-item__footer"></div>
     </form>
-    
   )
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addTodo : (payload) => dispatch({type : "TODO_ADD", payload})
-  }
-}
-
-export default connect(null, mapDispatchToProps)(TodoInput);
+export default TodoInput;

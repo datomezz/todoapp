@@ -1,11 +1,23 @@
-import React, {Fragment} from "react";
-import {connect} from "react-redux";
+import React, {Fragment, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {TODO_REMOVE_ALL_COMPLETED} from "../actions";
 
 import ListItem from "./list-item";
 import TodoInput from "./todo-input";
 import Filters from "./filters";
 
-const Body = ({list, filter, todoRemoveAllCompleted}) => {
+const Spinner = () => {
+  return <h1>Spinner</h1>
+}
+
+const Error = () => {
+  return <h1>Error</h1>
+}
+
+const Body = ({fetchList, loading, error}) => {
+  const {list, filter} = useSelector(({list, filter}) => ({list, filter}));
+  const dispatch = useDispatch();
+
   const itemsLeft = list.filter(({isDone}) => isDone === false).length;
 
   const filterList = (filter, list) => {
@@ -19,6 +31,14 @@ const Body = ({list, filter, todoRemoveAllCompleted}) => {
       default :
         return list;
     }
+  }
+
+  if(loading) {
+    return <Spinner />
+  }
+
+  if(error) {
+    return <Error />
   }
 
   const filtredList = filterList(filter, list);
@@ -36,26 +56,22 @@ const Body = ({list, filter, todoRemoveAllCompleted}) => {
             )
           })
         }
-        <div className="list-item__container justify-content-between">
+        <div className="list-item__container justify-content-between border-0">
           <span className="app-list-text">{itemsLeft} items left</span>
           <div className="d-sm-block d-none">
             <Filters />
           </div>
-          <button onClick={todoRemoveAllCompleted} className="app-button__no-style app-list-text">Clear Completed</button>
+          <button onClick={() => dispatch(TODO_REMOVE_ALL_COMPLETED())} className="app-button__no-style app-list-text">Clear Completed</button>
         </div>
       </ul>
     </Fragment>
   )
 }
 
-const mapStateToProps = ({list, filter}) => {
-  return {list, filter}
-}
-
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    todoRemoveAllCompleted : () => dispatch({type : "TODO_REMOVE_ALL_COMPLETED"})
+    todoRemoveAllCompleted : () => dispatch(TODO_REMOVE_ALL_COMPLETED())
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Body);
+export default Body;

@@ -1,9 +1,13 @@
 import React, {useEffect} from "react";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMoon, faSun} from "@fortawesome/free-solid-svg-icons";
+import {TOGGLE_DARK_THEME} from "../actions";
 
-const Header = ({darkTheme, toggleDarkTheme}) => {
+const Header = () => {
+
+  const {darkTheme} = useSelector(({darkTheme}) => ({darkTheme}));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.body.classList.toggle("theme-dark")
@@ -14,21 +18,11 @@ const Header = ({darkTheme, toggleDarkTheme}) => {
   return (
     <div className="app-header">
       <h2 className="app-header__title font-weight-bold">TODO</h2>
-        <button className="app-button__no-style app-text" onClick={() => toggleDarkTheme()}>
+        <button className="app-button__no-style app-text" onClick={() => dispatch(TOGGLE_DARK_THEME())}>
           <FontAwesomeIcon icon={toggleIcon} />
         </button>
     </div>
   )
 }
 
-const mapStateToProps = ({darkTheme}) => {
-  return {darkTheme}
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleDarkTheme : () => dispatch({type : "TOGGLE_DARK_THEME"})
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

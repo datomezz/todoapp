@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {connect} from "react-redux";
+import {FILTER_CHANGE} from "../actions";
+import {useDispatch, useSelector} from "react-redux";
 
-const Filters = ({filter, filterChange}) => {
+const Filters = () => {
+  const {filter} = useSelector(({filter}) => ({filter}));
+  const dispatch = useDispatch();
+
   const [filterButtons, setFilterButtons] = useState([
     {id : 1, label : "ALL", title : "All", isActive : true},
     {id : 2, label : "ACTIVE", title : "Active", isActive : false},
@@ -9,7 +13,7 @@ const Filters = ({filter, filterChange}) => {
   ]);
 
   const changeFilter = (index, payload) => {
-    filterChange(payload);
+    dispatch(FILTER_CHANGE(payload));
 
     const idx = filterButtons.findIndex(({id}) => id === index);
     const newArr = filterButtons.map(item => {
@@ -41,14 +45,4 @@ const Filters = ({filter, filterChange}) => {
   )
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    filterChange : (payload) => dispatch({type : "FILTER_CHANGE", payload})
-  }
-}
-
-const mapStateToProps = ({filter}) => {
-  return {filter}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filters);
+export default Filters;
