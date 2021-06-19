@@ -14,9 +14,9 @@ ReactDOM.render(
     <ErrorBoundry>
       <Router>
         <Switch>
-          <Route path="/" exact component={App} />
+          <Route path="/" component={App} />
           <Route path="/author" exact render={() => <h1>Datomezz</h1>} />
-          <Route render={() => <h1>404</h1>} />
+          <Route render={() => <h1>zzD :(</h1>} />
           <Redirect to={"/"} />
         </Switch>
       </Router>
