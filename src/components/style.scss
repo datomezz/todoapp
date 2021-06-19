@@ -1,15 +1,23 @@
 :root {
   font-size : 10px;
-  --app-color-border : #393A4B;
-  --app-color-list-item-background : #25273D;
+  --app-color-border : #b8b8b8;
+  --app-color-list-item-background : #EAEAEA;
+  --app-background : #fff;
+  --app-border-hover : var(--app-color-border);
+  --app-text : #171823;
+
 
   body {
     font-size : 1.6rem;
-    background : #fff;
+    background : var(--app-background);
   }
 
   .theme-dark {
-    background : #171823;
+    --app-background : #171823;
+    --app-color-list-item-background : #25273D;
+    --app-color-border : #393a4b;
+    --app-border-hover : #393a4b;
+    --app-text : #fff;
     color : #fff;
 
     .app-text {
@@ -55,7 +63,7 @@
   background-color : transparent;
   outline : none;
   border : none;
-  color : #fff;
+  color : var(--app-text);
 }
 
 .app-list-text {
@@ -97,7 +105,7 @@ form.list-item__container {
   &:hover {
     .list-item__head {
       .list-item__circle {
-        border : 3px solid #494C6B;
+        border : 3px solid var(--app-border-hover);
       }
 
     }
@@ -121,7 +129,7 @@ form.list-item__container {
       height : 2.5rem;
       border : 1px solid var(--app-color-border);
       border-radius : 50%;
-      color : #fff;
+      color : var(--app-text);
       transition : .3s ease;
 
 
